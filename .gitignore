@@ -1,0 +1,5 @@
+src/main/resources/config.yaml
+/.idea/
+/client.log
+*.iml
+/target/

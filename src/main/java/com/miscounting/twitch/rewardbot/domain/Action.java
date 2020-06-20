@@ -31,7 +31,7 @@ public class Action {
     }
 
     public void execute(TwitchChat twitchChat, Configuration config) {
-        if (keysToPress != null && ! keysToPress.isEmpty()) {
+        if (keysToPress != null && !keysToPress.isEmpty()) {
             try {
                 System.out.println("Attempting to press " + keysToPress);
                 Robot robot = new Robot();
@@ -47,7 +47,7 @@ public class Action {
                 e.printStackTrace();
             }
         }
-        if (messageToWhisper != null && ! messageToWhisper.isEmpty()) {
+        if (messageToWhisper != null && !messageToWhisper.isEmpty()) {
             // whisper bot
             System.out.printf("Whispering to bot %s: %s", config.getBotName(), messageToWhisper);
             twitchChat.sendPrivateMessage(config.getBotName(), messageToWhisper);
