@@ -8,11 +8,15 @@ import com.github.twitch4j.TwitchClient;
 import com.github.twitch4j.TwitchClientBuilder;
 import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
 import com.github.twitch4j.pubsub.events.RewardRedeemedEvent;
+import com.miscounting.twitch.rewardbot.domain.Action;
 import com.miscounting.twitch.rewardbot.domain.Command;
 import com.miscounting.twitch.rewardbot.domain.Configuration;
 
+import javax.swing.*;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class RewardBot {
@@ -83,6 +87,9 @@ public class RewardBot {
             if (commandMap.containsKey(rewardId)) {
                 commandMap.get(rewardId).getAction().execute(twitchClient.getChat(), configuration);
             }
+            else {
+                System.out.println("Could not find a command for reward " + rewardId);
+            }
         });
     }
 
@@ -101,7 +108,17 @@ public class RewardBot {
             InputStream is = classloader.getResourceAsStream("config.yaml");
 
             ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+
             configuration = mapper.readValue(is, Configuration.class);
+
+            List<String> validationErrors = validateConfiguration(configuration);
+            if (validationErrors.size() > 0) {
+                System.err.println("Configuration errors: ");
+                for (String err : validationErrors) {
+                    System.err.println(err);
+                }
+                System.exit(1);
+            }
 
             for (Command command : configuration.getCommands()) {
                 System.out.println("Adding comand: " + command.getOptionalName());
@@ -112,6 +129,43 @@ public class RewardBot {
             ex.printStackTrace();
             System.out.println("Unable to load Configuration ... Exiting.");
             System.exit(1);
+        }
+    }
+
+    private List<String> validateConfiguration(Configuration config) {
+        List<String> errorMessages = new ArrayList<>();
+        if (configuration.getOauth() == null || configuration.getOauth().isEmpty()) {
+            errorMessages.add("Missing required configuration field oauth.");
+        }
+        if (configuration.getChannel() == null || configuration.getChannel().isEmpty()) {
+            errorMessages.add("Missing required configuration field channel.");
+        }
+        if (configuration.getBotName() != null & configuration.getBotName().isEmpty()) {
+            errorMessages.add("Configuration field botName cannot be empty.");
+        }
+        for (Command command : configuration.getCommands()) {
+            if (command.getTwitchRewardId() == null || command.getTwitchRewardId().isEmpty()) {
+                errorMessages.add("Command is missing required field twitchRewardId.");
+            }
+            if (command.getAction() == null) {
+                errorMessages.add(
+                        String.format("Command %s is missing required field action.", command.getOptionalName()));
+            } else {
+                validateAction(command.getAction(), errorMessages);
+            }
+        }
+        return errorMessages;
+    }
+
+    private void validateAction(Action action, List<String> errorMessages) {
+        if (action.getKeysToPress() == null && action.getMessageToWhisper() == null && action.getPerformAtRandom() == null) {
+            errorMessages.add(String.format("Action field %s must contain at least one action type.", action.getName()));
+        }
+        if (action.getKeysToPress() != null && KeyStroke.getKeyStroke(action.getKeysToPress()) == null) {
+            errorMessages.add(String.format(
+                    "Field keysToPress: %s in Action %s is not a valid KeyStroke.",
+                    action.getKeysToPress(),
+                    action.getName()));
         }
     }
 
