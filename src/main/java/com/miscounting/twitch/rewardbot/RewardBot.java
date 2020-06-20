@@ -7,6 +7,8 @@ import com.github.philippheuer.events4j.simple.SimpleEventHandler;
 import com.github.twitch4j.TwitchClient;
 import com.github.twitch4j.TwitchClientBuilder;
 import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
+import com.github.twitch4j.helix.domain.User;
+import com.github.twitch4j.helix.domain.UserList;
 import com.github.twitch4j.pubsub.events.RewardRedeemedEvent;
 import com.miscounting.twitch.rewardbot.domain.Action;
 import com.miscounting.twitch.rewardbot.domain.Command;
@@ -47,42 +49,34 @@ public class RewardBot {
 
         twitchClient = TwitchClientBuilder.builder()
                 .withEnableChat(true)
+                .withEnableHelix(true)
                 .withChatAccount(credential)
                 .withEnablePubSub(true)
                 .build();
-        // TODO validate config
         // TODO replace common keys like 'command' and 'win'
         // TODO perform things at random
         // TODO clean up printlns and add logging
         // TODO learn how to package
-        // TODO don't lazy-load the pubsub subscription - figure out getUsers API permissions.
 
         twitchClient.getChat().joinChannel(configuration.getChannel());
+
+        String channelId = twitchClient
+                .getHelix()
+                .getUsers(credential.getAccessToken(), null, List.of(configuration.getChannel()))
+                .execute()
+                .getUsers()
+                .get(0)
+                .getId();
+
+        // Register for pubsub topic about channel point rewards.
+        twitchClient.getPubSub().listenForChannelPointsRedemptionEvents(credential, channelId);
 
         SimpleEventHandler eventHandler = twitchClient.getEventManager().getEventHandler(SimpleEventHandler.class);
         // Register Event-based features
         eventHandler.onEvent(ChannelMessageEvent.class, (event) -> {
             System.out.println(event.getUser().getName() + ": " + event.getMessage());
-            // This is a hack to pull the channel ID out of a chat message in the channel we're watching.
-            // This keeps us in the scope of the chat API oauth token we use.
-            if (channelId == null) {
-                System.out.println("Registering channel ID");
-                channelId = event.getChannel().getId();
-
-                //subscribe to pubsub about this channel
-                twitchClient.getPubSub().listenForChannelPointsRedemptionEvents(credential, channelId);
-            }
         });
-
         eventHandler.onEvent(RewardRedeemedEvent.class, (event) -> {
-            String message = String.format(
-                    "%s just redeemed %s for %s!  Id: %s",
-                    event.getRedemption().getUser().getDisplayName(),
-                    event.getRedemption().getReward().getTitle(),
-                    event.getRedemption().getReward().getCost(),
-                    event.getRedemption().getReward().getId()
-            );
-
             String rewardId = event.getRedemption().getReward().getId();
             if (commandMap.containsKey(rewardId)) {
                 commandMap.get(rewardId).getAction().execute(twitchClient.getChat(), configuration);

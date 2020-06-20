@@ -2,6 +2,8 @@
 
 A simple bot designed to integrate with Twitch custom channel point rewards.  RewardBotJ snoops on your twitch reward redemptions using **twitch4j**, identifies rewards with configured actions, and performs those actions automatically.
 
+Unlike other similar tools, this one does not depend on forcing your users to submit text along with the reward redemption!
+
 # To use
 ### Install
 
