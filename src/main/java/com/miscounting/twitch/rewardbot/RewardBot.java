@@ -7,8 +7,6 @@ import com.github.philippheuer.events4j.simple.SimpleEventHandler;
 import com.github.twitch4j.TwitchClient;
 import com.github.twitch4j.TwitchClientBuilder;
 import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
-import com.github.twitch4j.helix.domain.User;
-import com.github.twitch4j.helix.domain.UserList;
 import com.github.twitch4j.pubsub.events.RewardRedeemedEvent;
 import com.miscounting.twitch.rewardbot.domain.Action;
 import com.miscounting.twitch.rewardbot.domain.Command;
@@ -32,8 +30,6 @@ public class RewardBot {
      * Twitch4J API
      */
     private final TwitchClient twitchClient;
-
-    private String channelId;
 
     private final Map<String, Command> commandMap = new HashMap<>();
 
@@ -73,9 +69,8 @@ public class RewardBot {
 
         SimpleEventHandler eventHandler = twitchClient.getEventManager().getEventHandler(SimpleEventHandler.class);
         // Register Event-based features
-        eventHandler.onEvent(ChannelMessageEvent.class, (event) -> {
-            System.out.println(event.getUser().getName() + ": " + event.getMessage());
-        });
+        eventHandler.onEvent(ChannelMessageEvent.class, (event) ->
+                System.out.println(event.getUser().getName() + ": " + event.getMessage()));
         eventHandler.onEvent(RewardRedeemedEvent.class, (event) -> {
             String rewardId = event.getRedemption().getReward().getId();
             if (commandMap.containsKey(rewardId)) {
@@ -89,7 +84,7 @@ public class RewardBot {
 
     public static void main(String[] args) {
 
-        RewardBot bot = new RewardBot();
+        new RewardBot();
 
     }
 
@@ -126,7 +121,7 @@ public class RewardBot {
         }
     }
 
-    private List<String> validateConfiguration(Configuration config) {
+    private List<String> validateConfiguration(Configuration configuration) {
         List<String> errorMessages = new ArrayList<>();
         if (configuration.getOauth() == null || configuration.getOauth().isEmpty()) {
             errorMessages.add("Missing required configuration field oauth.");
@@ -134,7 +129,7 @@ public class RewardBot {
         if (configuration.getChannel() == null || configuration.getChannel().isEmpty()) {
             errorMessages.add("Missing required configuration field channel.");
         }
-        if (configuration.getBotName() != null & configuration.getBotName().isEmpty()) {
+        if (configuration.getBotName() != null && configuration.getBotName().isEmpty()) {
             errorMessages.add("Configuration field botName cannot be empty.");
         }
         for (Command command : configuration.getCommands()) {
