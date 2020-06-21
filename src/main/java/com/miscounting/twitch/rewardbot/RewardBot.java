@@ -95,7 +95,6 @@ public class RewardBot {
             if (System.getProperty("CONFIGDIR") != null) {
                 String pathToConfig = System.getProperty("CONFIGDIR","") + "config.yaml";
                 System.out.println(pathToConfig);
-                ClassLoader classloader = Thread.currentThread().getContextClassLoader();
                 File file = new File(pathToConfig);
                 System.out.println(file.getPath());
                 is = new FileInputStream(file);
