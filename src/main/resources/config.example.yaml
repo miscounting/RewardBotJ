@@ -7,9 +7,9 @@
 
 
 # OAuth Token for IRC USer (You can get yours here: http://twitchapps.com/tmi/)
-oauth: oauth:[YOUR_OAUTH_TOKEN_SECRET]
-channel: "[YOUR_TWITCH_CHANNEL_NAME]"
-bot_name: "[YOUR_TWITCH_BOT_NAME]"
+oauth: "oauth:YOUR_OAUTH_TOKEN_SECRET"
+channel: "YOUR_TWITCH_CHANNEL_NAME"
+bot_name: "YOUR_TWITCH_BOT_NAME"
 
 
 
