@@ -16,7 +16,18 @@ This repository includes a config.example.yaml file that should help you get sta
 * Whisper at bot (good for invoking commands on Streamlabs chatbot!)
 * Perform one of a list of actions at random!
 
-### Find your custom reward IDs
+## Find your custom reward IDs
 Create a custom reward on your Twitch channel.
 
 Run the program, redeem your rewards in your twitch chat, and watch the console for helpful logs.
+
+# What do?
+What don't do?!
+
+Hotkeys are useful for triggering actions in a variety of programs.  SLOBs lets you start/stop streaming, show/hide views, trigger scene transitions with hotkeys.
+
+Whispering to your bot is a great way to trigger secret commands in Streamlabs chatbot.
+
+Random is always silly.
+
+Have fun!
