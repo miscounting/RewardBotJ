@@ -13,11 +13,10 @@ import com.miscounting.twitch.rewardbot.domain.Command;
 import com.miscounting.twitch.rewardbot.domain.Configuration;
 
 import javax.swing.*;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class RewardBot {
 
@@ -52,13 +51,12 @@ public class RewardBot {
         // TODO replace common keys like 'command' and 'win'
         // TODO perform things at random
         // TODO clean up printlns and add logging
-        // TODO learn how to package
 
         twitchClient.getChat().joinChannel(configuration.getChannel());
 
         String channelId = twitchClient
                 .getHelix()
-                .getUsers(credential.getAccessToken(), null, List.of(configuration.getChannel()))
+                .getUsers(credential.getAccessToken(), null, Arrays.asList(configuration.getChannel()))
                 .execute()
                 .getUsers()
                 .get(0)
@@ -93,9 +91,18 @@ public class RewardBot {
      */
     private void loadConfiguration() {
         try {
-            ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-            InputStream is = classloader.getResourceAsStream("config.yaml");
-
+            InputStream is;
+            if (System.getProperty("CONFIGDIR") != null) {
+                String pathToConfig = System.getProperty("CONFIGDIR","") + "config.yaml";
+                System.out.println(pathToConfig);
+                ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+                File file = new File(pathToConfig);
+                System.out.println(file.getPath());
+                is = new FileInputStream(file);
+            }else {
+                ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+                is = classloader.getResourceAsStream("config.yaml");
+            }
             ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
 
             configuration = mapper.readValue(is, Configuration.class);
