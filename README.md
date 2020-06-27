@@ -31,3 +31,9 @@ Whispering to your bot is a great way to trigger secret commands in Streamlabs c
 Random is always silly.
 
 Have fun!
+
+# TODOs
+
+* Reimplement timeout actions
+* Replace printlns with logging
+* Create a web form to populate config
