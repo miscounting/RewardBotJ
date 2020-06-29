@@ -34,6 +34,6 @@ Have fun!
 
 # TODOs
 
-* Reimplement timeout actions
 * Replace printlns with logging
 * Create a web form to populate config
+* Figure out modular/executable packaging

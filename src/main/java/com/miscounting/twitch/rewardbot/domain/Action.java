@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Collection;
 import java.util.List;
-import java.util.concurrent.Executors;
+import java.util.Random;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
@@ -17,6 +17,7 @@ public class Action {
     private String messageToWhisper;
     private List<Action> performAtRandom;
     private Timeout optionalTimeout;
+    private int randomIndex;
 
     public String getName() {
         return name;
@@ -60,16 +61,14 @@ public class Action {
         }
         if (performAtRandom != null && performAtRandom.size() > 0) {
             // perform at random
-            // TODO random
-            performAtRandom.get(0).execute(twitchChat, config, executorService);
+            randomIndex = new Random().nextInt(performAtRandom.size());
+            performAtRandom.get(randomIndex).execute(twitchChat, config, executorService);
         }
         if (optionalTimeout != null) {
-
             executorService.schedule(() -> {optionalTimeout.getAction().execute(twitchChat, config, executorService);},
                     optionalTimeout.getDelayInSeconds(),
                     TimeUnit.SECONDS);
         }
     }
-
 }
 

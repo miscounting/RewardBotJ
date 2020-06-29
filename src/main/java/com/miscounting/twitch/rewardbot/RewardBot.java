@@ -17,6 +17,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 public class RewardBot {
 
@@ -36,6 +38,7 @@ public class RewardBot {
         System.out.println("I have started");
         loadConfiguration();
         System.out.println("Configuration loaded. " + configuration);
+        ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
 
         //region Auth
         OAuth2Credential credential = new OAuth2Credential(
@@ -72,7 +75,7 @@ public class RewardBot {
         eventHandler.onEvent(RewardRedeemedEvent.class, (event) -> {
             String rewardId = event.getRedemption().getReward().getId();
             if (commandMap.containsKey(rewardId)) {
-                commandMap.get(rewardId).getAction().execute(twitchClient.getChat(), configuration);
+                commandMap.get(rewardId).getAction().execute(twitchClient.getChat(), configuration, executorService);
             }
             else {
                 System.out.println("Could not find a command for reward " + rewardId);
