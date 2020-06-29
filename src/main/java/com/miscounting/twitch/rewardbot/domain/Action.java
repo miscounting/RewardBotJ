@@ -6,6 +6,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class Action {
 
@@ -13,6 +16,7 @@ public class Action {
     private String keysToPress;
     private String messageToWhisper;
     private List<Action> performAtRandom;
+    private Timeout optionalTimeout;
 
     public String getName() {
         return name;
@@ -30,7 +34,9 @@ public class Action {
         return performAtRandom;
     }
 
-    public void execute(TwitchChat twitchChat, Configuration config) {
+    public Timeout getOptionalTimeout() { return optionalTimeout; }
+
+    public void execute(TwitchChat twitchChat, Configuration config, ScheduledExecutorService executorService) {
         if (keysToPress != null && !keysToPress.isEmpty()) {
             try {
                 System.out.println("Attempting to press " + keysToPress);
@@ -55,7 +61,13 @@ public class Action {
         if (performAtRandom != null && performAtRandom.size() > 0) {
             // perform at random
             // TODO random
-            performAtRandom.get(0).execute(twitchChat, config);
+            performAtRandom.get(0).execute(twitchChat, config, executorService);
+        }
+        if (optionalTimeout != null) {
+
+            executorService.schedule(() -> {optionalTimeout.getAction().execute(twitchChat, config, executorService);},
+                    optionalTimeout.getDelayInSeconds(),
+                    TimeUnit.SECONDS);
         }
     }
 
