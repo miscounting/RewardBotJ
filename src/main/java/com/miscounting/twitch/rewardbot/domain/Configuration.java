@@ -33,7 +33,7 @@ public class Configuration {
     @Override
     public String toString() {
         return "Configuration{" +
-                ", oauth=" + oauth +
+                ", oauth=[redacted]" +
                 ", channel=" + channel +
                 ", bot=" + botName +
                 ", commands=" + commands +
