@@ -1,7 +1,7 @@
 package com.miscounting.twitch.rewardbot;
 
+import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.github.philippheuer.credentialmanager.domain.OAuth2Credential;
 import com.github.philippheuer.events4j.simple.SimpleEventHandler;
 import com.github.twitch4j.TwitchClient;
@@ -11,6 +11,10 @@ import com.github.twitch4j.pubsub.events.RewardRedeemedEvent;
 import com.miscounting.twitch.rewardbot.domain.Action;
 import com.miscounting.twitch.rewardbot.domain.Command;
 import com.miscounting.twitch.rewardbot.domain.Configuration;
+import org.everit.json.schema.Schema;
+import org.everit.json.schema.loader.SchemaLoader;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import javax.swing.*;
 import java.io.File;
@@ -52,7 +56,6 @@ public class RewardBot {
                 .withEnablePubSub(true)
                 .build();
         // TODO replace common keys like 'command' and 'win'
-        // TODO perform things at random
         // TODO clean up printlns and add logging
 
         twitchClient.getChat().joinChannel(configuration.getChannel());
@@ -96,18 +99,28 @@ public class RewardBot {
         try {
             InputStream is;
             if (System.getProperty("CONFIGDIR") != null) {
-                String pathToConfig = System.getProperty("CONFIGDIR","") + "config.yaml";
+                String pathToConfig = System.getProperty("CONFIGDIR","") + "config.json";
                 System.out.println(pathToConfig);
                 File file = new File(pathToConfig);
                 System.out.println(file.getPath());
                 is = new FileInputStream(file);
             }else {
                 ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-                is = classloader.getResourceAsStream("config.yaml");
+                is = classloader.getResourceAsStream("config.json");
             }
-            ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+            ObjectMapper mapper = new ObjectMapper(new JsonFactory());
+
+            // TODO put this in a test instead.
+            JSONObject jsonSchema = new JSONObject(
+                    new JSONTokener(Thread.currentThread().getContextClassLoader().getResourceAsStream("schema/config.schema.json")));
+            JSONObject jsonSubject = new JSONObject(
+                    new JSONTokener(Thread.currentThread().getContextClassLoader().getResourceAsStream("config.json")));
+
+            Schema schema = SchemaLoader.load(jsonSchema);
+            schema.validate(jsonSubject);
 
             configuration = mapper.readValue(is, Configuration.class);
+
 
             List<String> validationErrors = validateConfiguration(configuration);
             if (validationErrors.size() > 0) {
