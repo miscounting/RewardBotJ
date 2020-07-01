@@ -3,3 +3,8 @@ src/main/resources/config.yaml
 /client.log
 *.iml
 /target/
+/rewardbot.iml
+.project
+.classpath
+/.settings/
+package-lock.json
