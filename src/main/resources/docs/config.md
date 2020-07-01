@@ -22,7 +22,7 @@ rewardbotj.config.schema.json
 | [channel](#channel)   | `string` | Required | cannot be null | [Configuration](config-properties-channel.md "rewardbotj.config.schema.json#/properties/channel")   |
 | [bot_name](#bot_name) | `string` | Optional | cannot be null | [Configuration](config-properties-bot_name.md "rewardbotj.config.schema.json#/properties/bot_name") |
 | [oauth](#oauth)       | `string` | Required | cannot be null | [Configuration](config-properties-oauth.md "rewardbotj.config.schema.json#/properties/oauth")       |
-| [commands](#commands) | `array`  | Required | cannot be null | [Configuration](config-properties-commands.md "rewardbotj.config.schema.json#/properties/commands") |
+| [commands](#commands) | `array`  | Required | cannot be null |
 
 ## channel
 

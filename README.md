@@ -10,11 +10,13 @@ This repo contains a zip file with an executable jar, an example config file, an
 
 ## Configure
 
-This repository includes a config.example.yaml file that should help you get started.  You will need to edit it and rename to config.yaml.  Use it to define a list of commands for the bot to perform.  Commands must have a twitch_reward_id and an action.  Actions currently include:
+This bot is config-driven.  Use the config file to define your commands and the actions that should be taken when they are invoked.  Currently-supported actions include:
 
 * Press hotkeys (easy way to integrate with OBS or other programs)
 * Whisper at bot (good for invoking commands on Streamlabs chatbot!)
 * Perform one of a list of actions at random!
+
+[See configuration documentation](src/main/resources/docs/config.md)
 
 ## Find your custom reward IDs
 Create a custom reward on your Twitch channel.
