@@ -1,11 +1,33 @@
 src/main/resources/config.yaml
 src/main/resources/config.json
 /.idea/
+/.settings/
 /client.log
 *.iml
 /target/
 /rewardbot.iml
-.project
 .classpath
-/.settings/
-package-lock.json
+.project
+# config page
+
+# dependencies
+/rewardbot-config/node_modules
+/rewardbot-config/.pnp
+/rewardbot-config/.pnp.js
+
+# testing
+/rewardbot-config/coverage
+
+# production
+/rewardbot-config//build
+
+# misc
+/rewardbot-config/.DS_Store
+/rewardbot-config/.env.local
+/rewardbot-config/.env.development.local
+/rewardbot-config/.env.test.local
+/rewardbot-config/.env.production.local
+
+/rewardbot-config/npm-debug.log*
+/rewardbot-config/yarn-debug.log*
+/rewardbot-config/yarn-error.log*

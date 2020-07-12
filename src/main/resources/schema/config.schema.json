@@ -11,6 +11,7 @@
     },
     "bot_name": {
       "type": "string",
+      "title": "bot name",
       "description": "The Twitch bot account"
     },
     "oauth": {
@@ -26,17 +27,19 @@
   },
   "definitions": {
     "command": {
-      "title": "Command",
+      "title": "command",
       "type": "object",
       "required": ["twitchRewardId","action"],
       "properties": {
         "optionalName": {
           "type": "string",
-          "description": "The name of this command. Optional - used mostly for debugging."
+          "title": "command name",
+          "description": "Optional - used mostly for debugging."
         },
         "twitchRewardId": {
           "type": "string",
-          "description": "Twitch-generated identifier for your custom channel points reward. You can find your reward ID here: https://www.instafluff.tv/TwitchCustomRewardID/?channel=yourchannel"
+          "title": "twitch reward Id",
+          "description": "The reward ID"
         },
         "action": {
           "$ref": "#/definitions/action"
@@ -65,6 +68,19 @@
           "items": {
             "$ref": "#/definitions/action"
           }
+        }
+      }
+    },
+    "timeout": {
+      "type": "object",
+      "title": "Timeout",
+      "properties": {
+        "delayInSeconds": {
+          "type": "number",
+          "description": "How many seconds to wait before performing the after-action"
+        },
+        "action": {
+          "$ref": "#/definitions/action"
         }
       }
     }

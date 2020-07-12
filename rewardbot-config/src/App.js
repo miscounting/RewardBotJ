@@ -6,37 +6,21 @@ import Grid from '@material-ui/core/Grid';
 const log = (type) => console.log.bind(console, type);
 
 const defaultJson = {
-    "bot_name": "YOUR_TWITCH_BOT_NAME",
-    "channel": "YOUR_TWITCH_CHANNEL_NAME",
-    "oauth": "YOUR_SECRET_OAUTH_TOKEN",
+    "bot_name": "Your bot's twitch ID, if you have one",
+    "channel": "Your twitch ID",
+    "oauth": "your secret OAUTH token",
     "commands": [
         {
             "optionalName": "press some keys command",
-            "twitchRewardId": "TWITCH_GENERATED_COMMAND_ID",
+            "twitchRewardId": "The ID twitch uses for your points reward",
             "action": {
-                "name": "press some keys",
-                "keysToPress": "shift control alt meta 1"
-            }
-        },
-        {
-            "optionalName": "whisper to your bot command",
-            "twitchRewardId": "TWITCH_GENERATED_COMMAND_ID_2",
-            "action": {
-                "messageToWhisper": "!whisperedCommand"
-            }
-        },
-        {
-            "optionalName": "Perform one random action command",
-            "twitchRewardId": "TWITCH_GENERATED_COMMAND_ID_3",
-            "action": {
+                "name": "What I want to happen",
+                "keysToPress": "shift control alt meta 1",
+                "messageToWhisper": "!icanwhispertoyourbot",
                 "performAtRandom": [
                     {
                         "name": "action A",
                         "messageToWhisper": "Hey bot, play sound A"
-                    },
-                    {
-                        "name": "action B",
-                        "messageToWhisper": "Hey bot, play sound B"
                     },
                     {
                         "name": "action C",
