@@ -92,8 +92,29 @@
         "performAtRandom":{
           "type": "array",
           "items": {
-            "$ref": "#/definitions/action"
+            "$ref": "#/definitions/random_action"
           }
+        }
+      }
+    },
+    "random_action": {
+      "type": "object",
+      "title": "Random Action",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of this action; optional, for debugging."
+        },
+        "messageToWhisper": {
+          "type": "string",
+          "description": "A message to whisper to your bot (if configured). Useful for triggering Streamlabs Chatbot commands."
+        },
+        "keysToPress": {
+          "type": "string",
+          "description": " string to represent hotkeys. Must follow the Java KeyStroke format:\n      # See: https://docs.oracle.com/javase/7/docs/api/javax/swing/KeyStroke.html#getKeyStroke(java.lang.String)\n      # example: shift control alt command A"
+        },
+        "timeout": {
+          "$ref": "#/definitions/timeout"
         }
       }
     },
