@@ -17,7 +17,6 @@ public class Action {
     private String messageToWhisper;
     private List<Action> performAtRandom;
     private Timeout optionalTimeout;
-    private int randomIndex;
 
     public String getName() {
         return name;
@@ -61,7 +60,7 @@ public class Action {
         }
         if (performAtRandom != null && performAtRandom.size() > 0) {
             // perform at random
-            randomIndex = new Random().nextInt(performAtRandom.size());
+            int randomIndex = new Random().nextInt(performAtRandom.size());
             performAtRandom.get(randomIndex).execute(twitchChat, config, executorService);
         }
         if (optionalTimeout != null) {
