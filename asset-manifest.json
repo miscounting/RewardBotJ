@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/RewardBotJc/static/css/main.5ecd60fb.chunk.css",
+    "main.js": "/RewardBotJc/static/js/main.c8d91aab.chunk.js",
+    "main.js.map": "/RewardBotJc/static/js/main.c8d91aab.chunk.js.map",
+    "runtime-main.js": "/RewardBotJc/static/js/runtime-main.2ae58589.js",
+    "runtime-main.js.map": "/RewardBotJc/static/js/runtime-main.2ae58589.js.map",
+    "static/js/2.d02fa87d.chunk.js": "/RewardBotJc/static/js/2.d02fa87d.chunk.js",
+    "static/js/2.d02fa87d.chunk.js.map": "/RewardBotJc/static/js/2.d02fa87d.chunk.js.map",
+    "index.html": "/RewardBotJc/index.html",
+    "precache-manifest.0c02759a1013a72a57bcf186a3dba85e.js": "/RewardBotJc/precache-manifest.0c02759a1013a72a57bcf186a3dba85e.js",
+    "service-worker.js": "/RewardBotJc/service-worker.js",
+    "static/css/main.5ecd60fb.chunk.css.map": "/RewardBotJc/static/css/main.5ecd60fb.chunk.css.map",
+    "static/js/2.d02fa87d.chunk.js.LICENSE.txt": "/RewardBotJc/static/js/2.d02fa87d.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.2ae58589.js",
+    "static/js/2.d02fa87d.chunk.js",
+    "static/css/main.5ecd60fb.chunk.css",
+    "static/js/main.c8d91aab.chunk.js"
+  ]
+}
