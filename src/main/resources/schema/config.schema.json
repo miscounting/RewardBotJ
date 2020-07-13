@@ -65,7 +65,7 @@
         "performAtRandom":{
           "type": "array",
           "items": {
-            "$ref": "#/definitions/action"
+            "$ref": "#/definitions/random_action"
           }
         },
         "timeout": {
