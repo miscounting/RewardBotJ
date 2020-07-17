@@ -16,6 +16,7 @@ public class Action {
     private String keysToPress;
     private String messageToWhisper;
     private List<Action> performAtRandom;
+    private PostRequest httpRequest;
     private Timeout optionalTimeout;
 
     public String getName() {
@@ -32,6 +33,14 @@ public class Action {
 
     public Collection<Action> getPerformAtRandom() {
         return performAtRandom;
+    }
+
+    public PostRequest getHttpRequest() {
+        return httpRequest;
+    }
+
+    public void setHttpRequest(PostRequest httpRequest) {
+        this.httpRequest = httpRequest;
     }
 
     public Timeout getOptionalTimeout() { return optionalTimeout; }

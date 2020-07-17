@@ -68,6 +68,20 @@
             "$ref": "#/definitions/random_action"
           }
         },
+        "httpRequest":  {
+          "type": "object",
+          "description": "Perform an HTTP POST request",
+          "properties": {
+            "url": {
+              "type": "string",
+              "description": "The URL to POST to"
+            },
+            "payloadToPost": {
+              "type": "string",
+              "description": "The payload to POST."
+            }
+          }
+        },
         "timeout": {
           "$ref": "#/definitions/timeout"
         }
